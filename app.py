@@ -89,15 +89,15 @@ if uploaded_file is not None:
             stroke_width="1mm"
         ))
 
-        # تحويل مسارات OpenCV إلى عناصر SVG أوتوماتيكياً
+        # تحويل مسارات OpenCV إلى عناصر SVG أوتوماتيكياً (تصحيح نوع البيانات)
         for contour in contours:
             points = []
             for pt in contour:
                 px, py = pt[0]
-                # تحويل إحداثيات البكسل إلى مليمترات دقيقة للقطع
-                mm_x = round(px * scale_x, 2)
-                mm_y = round(py * scale_y, 2)
-                points.append((f"{mm_x}mm", f"{mm_y}mm"))
+                # تحويل إحداثيات البكسل إلى أرقام float صافية متوافقة مع SVG
+                mm_x = round(float(px * scale_x), 2)
+                mm_y = round(float(py * scale_y), 2)
+                points.append((mm_x, mm_y))
 
             if len(points) > 1:
                 dwg.add(dwg.polyline(
